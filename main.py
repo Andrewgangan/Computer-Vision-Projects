@@ -16,3 +16,5 @@ if __name__ == '__main__':
     yhat_test, _ = full_forward(X_test, params, NN_ARCHITECTURE)
     loss_test, _ = calc_square_loss(yhat_test, y_test)
     accuracy_test = calc_accuracy(yhat_test, y_test)
+
+    print('accuracy on test set: ' + str(accuracy_test))
