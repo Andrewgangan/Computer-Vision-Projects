@@ -1,16 +1,18 @@
-# 这是一个示例 Python 脚本。
+from data import *
+from params import *
+from train import PARAMS_DIR, TRAIN_DATA_DIR, TEST_DATA_DIR, NN_ARCHITECTURE
+from model import full_forward, calc_accuracy, calc_square_loss
 
-# 按 Shift+F10 执行或将其替换为您的代码。
-# 按 双击 Shift 在所有地方搜索类、文件、工具窗口、操作和设置。
+params = read_params(PARAMS_DIR)
 
-
-def print_hi(name):
-    # 在下面的代码行中使用断点来调试脚本。
-    print(f'Hi, {name}')  # 按 Ctrl+F8 切换断点。
-
-
-# 按间距中的绿色按钮以运行脚本。
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    X1, _ = get_data(TRAIN_DATA_DIR)
+    _, mu, sigma = standardize_cols(X1)
 
-# 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
+    X2, y2 = get_data(TEST_DATA_DIR)
+    X_test, _, _ = standardize_cols(X2, mu=mu, sigma=sigma)
+    y_test = linearToBinary(y2)
+
+    yhat_test, _ = full_forward(X_test, params, NN_ARCHITECTURE)
+    loss_test, _ = calc_square_loss(yhat_test, y_test)
+    accuracy_test = calc_accuracy(yhat_test, y_test)

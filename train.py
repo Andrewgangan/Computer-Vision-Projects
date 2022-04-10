@@ -3,6 +3,7 @@ from model import full_forward, full_backward, calc_square_loss, calc_accuracy
 from params import *
 from SGD import SGD
 import numpy as np
+import matplotlib.pyplot as plt
 import os
 
 NN_ARCHITECTURE = [
@@ -19,6 +20,16 @@ L2_PARAM = 0.0001            # l2-regularization parameter
 PARAMS_DIR = 'params.npy'               # directory to save parameters of network
 TRAIN_DATA_DIR = 'data/train_set.csv'   # directory of train data and labels
 TEST_DATA_DIR = 'data/test_set.csv'     # directory of test data and labels
+
+
+if not os.path.exists(TRAIN_DATA_DIR):
+    decompress_data("data/train-images.idx3-ubyte",
+                    "data/train-labels.idx1-ubyte",
+                    TRAIN_DATA_DIR, 60000)
+if not os.path.exists(TEST_DATA_DIR):
+    decompress_data("data/t10k-images.idx3-ubyte",
+                    "data/t10k-labels.idx1-ubyte",
+                    "data/test_set.csv", 10000)
 
 # if no initial parameters, then create it
 if not os.path.exists(PARAMS_DIR):
